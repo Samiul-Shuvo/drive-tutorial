@@ -1,7 +1,38 @@
-import { int, text, bigint, mysqlTable } from "drizzle-orm/mysql-core"; // ✅ Use mysql-core instead of singlestore-core
+import { int, text, bigint, index,singlestoreTableCreator, singlestoreTable } from "drizzle-orm/singlestore-core";
 
-export const users = mysqlTable("users_table", { // ✅ Use mysqlTable instead of singlestoreTable
+// export const createTable = singlestoreTableCreator(
+//   (name) => `drive_tutorial_${name}`,
+// );
+
+// export const files = createTable("files_table", {
+//   id: bigint("id", { mode: "number", unsigned: true })
+//       .primaryKey()
+//       .autoincrement(),
+//   name: text("name").notNull(),
+//   size: int("size").notNull(),
+//   url: text("url").notNull(),
+//   parent: bigint("parent", { mode: "number", unsigned: true }).notNull(),
+// }, (t) => {
+//   return [index("parent_index").on(t.parent)];
+// });
+
+// export const folder = createTable("folders_table", { // Fix table name (was "files_table")
+//   id: bigint("id", { mode: "number", unsigned: true })
+//       .primaryKey()
+//       .autoincrement(),
+//       name: text("name").notNull(),
+//   parent: bigint("parent", { mode: "number", unsigned: true }).notNull(),
+// }, (t) => {
+//   return [index("parent_index").on(t.parent)];
+// });
+
+
+export const users = singlestoreTable("users_table", {
+
   id: bigint("id", { mode: "bigint" }).primaryKey().autoincrement(),
+
   name: text("name"),
+
   age: int("age"),
+
 });
