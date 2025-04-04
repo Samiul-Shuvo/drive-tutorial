@@ -1,17 +1,14 @@
-import { drizzle } from "drizzle-orm/mysql2";
+import { drizzle } from "drizzle-orm/singlestore"; // ✅ Ensure this is correct
 import { createPool, type Pool } from "mysql2/promise";
-
 import { env } from "~/env";
 import * as schema from "./schema";
 
-/**
- * Cache the database connection in development. This avoids creating a new connection on every HMR
- * update.
- */
+// Global variable to store database connection in development mode
 const globalForDb = globalThis as unknown as {
   conn: Pool | undefined;
 };
 
+// Create a MySQL connection pool
 const conn =
   globalForDb.conn ??
   createPool({
@@ -21,12 +18,20 @@ const conn =
     password: env.SINGLESTORE_PASS,
     database: env.SINGLESTORE_DB_NAME,
     ssl: {},
-    maxIdle: 0,
+    maxIdle: 0, // Optional: Adjust based on your performance needs
   });
 
+// Store the connection globally in non-production environments
 if (env.NODE_ENV !== "production") globalForDb.conn = conn;
 
-conn.addListener("error", (err) => {
-  console.error("Database connection error:", err);
+// ✅ Safe error handling for database connection
+conn.addListener("error", (err: unknown) => {
+  if (err instanceof Error) {
+    console.error("Database connection error:", err.message);
+  } else {
+    console.error("Unknown database connection error:", err);
+  }
 });
-export const db = drizzle(conn, { schema, mode: "default" });
+
+// Export the database connection using Drizzle
+export const db = drizzle(conn, { schema }); 
