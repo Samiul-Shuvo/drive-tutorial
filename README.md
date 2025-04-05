@@ -9,6 +9,6 @@
 - [ ] Add analytics
 
 ## random todo
- - [ ] Change folder to link components , remove all client stats
+ - [x] Change folder to link components , remove all client stats
  - [ ] Clean up to database and data fetching patterns 
  - [ ] Real homepage
