@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useMemo, useState } from "react"
 import {  Upload, ChevronRight } from "lucide-react"
@@ -8,29 +8,17 @@ import type { files, folders } from "~/server/db/schema"
 import Link from "next/link"
 
 export default function DriveContents(props : {
-  files:typeof files.$inferSelect[];
-  folders:typeof folders.$inferSelect[];
+  files:(typeof files.$inferSelect)[];
+  folders:(typeof folders.$inferSelect)[];
+
+  parents:(typeof folders.$inferSelect)[];
 
 }) {
 
   
 
   const breadcrumbs:unknown[] = []
-  // useMemo(() => {
-  //   const breadcrumbs = []
-  //   let currentId = currentFolder
 
-  //   while (currentId !== 1) {
-  //     const folder = props.folders.find((folder) => folder.id === currentId)
-  //     if (folder) {
-  //       breadcrumbs.unshift(folder)
-  //       currentId = folder.parent ?? 1;
-  //     } else {
-  //       break
-  //     }
-  //   }
-  //   return breadcrumbs
-  // },[currentFolder, props.folders]);
 
   const handleUpload = () => {
     alert("Upload functionality would be implemented here")
@@ -47,13 +35,13 @@ export default function DriveContents(props : {
             >
               My Drive 
             </Link>
-            {breadcrumbs.map((folder) => (
+            {props.parents.map((folder) => (
               <div key={folder.id} className="flex items-center">
                 <ChevronRight className="mx-2 text-gray-500" size={16} />
                 <Link
                 href={`/f/${folder.id}`}
-                  onClick={() => handleFolderClick(folder.id)}
-                  variant="ghost"
+                  //onClick={() => handleFolderClick(folder.id)}
+                //  variant="ghost"
                   className="text-gray-300 hover:text-white"
                 >
                   {folder.name}
