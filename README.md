@@ -10,5 +10,5 @@
 
 ## random todo
  - [x] Change folder to link components , remove all client stats
- - [ ] Clean up to database and data fetching patterns 
+ - [x] Clean up to database and data fetching patterns 
  - [ ] Real homepage
