@@ -1,10 +1,12 @@
+import "server-only";
 
 import { db } from "~/server/db";
 import { files_table as filesSchema, folders_table as foldersSchema } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 
 type Folder = typeof foldersSchema.$inferSelect;
-export async function getAllParentsForFolder(folderId: number) {
+export const QUERIES ={
+ getAllParentsForFolder :  async function (folderId: number) {
     const parents: Folder[] = [];
 
     let currentId: number | null = folderId;
@@ -29,17 +31,15 @@ export async function getAllParentsForFolder(folderId: number) {
     }
     
     return parents;
-  }
-
-  export  function getFolders(folderId:number) {
+  },
+  getFolders: function (folderId:number) {
     return  db.select().from(foldersSchema).where(eq(foldersSchema.parent, folderId));
   }
-
-
-
-  export  function getFiles(folderId:number){
+,
+  getFiles: function (folderId:number){
 
     return db.select().from(filesSchema).where(eq(filesSchema.parent, folderId));
 
 
   }
+}
