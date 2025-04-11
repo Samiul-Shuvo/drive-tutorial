@@ -1,8 +1,9 @@
 import "server-only";
 
 import { db } from "~/server/db";
-import { files_table as filesSchema, folders_table as foldersSchema } from "~/server/db/schema";
+import {DB_FileType,DB_FolderType, files_table as filesSchema, folders_table as foldersSchema } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
+import { create } from "domain";
 
 type Folder = typeof foldersSchema.$inferSelect;
 export const QUERIES ={
@@ -43,3 +44,22 @@ export const QUERIES ={
 
   }
 }
+
+
+export const MUTATIONS = {
+    createFile: async function  (input:{
+    file:{
+    name: string;
+    size: number;
+    url: string;
+   
+    };
+    userId:string;
+
+}) {
+
+       return await db.insert(filesSchema).values({
+        ...input.file,
+        parent :1,});
+    },
+};

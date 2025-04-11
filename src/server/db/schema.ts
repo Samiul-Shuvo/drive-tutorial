@@ -1,3 +1,4 @@
+import { DB_FileType } from './schema';
 import "server-only";
 
 import { int, text, bigint, index,singlestoreTableCreator, singlestoreTable } from "drizzle-orm/singlestore-core";
@@ -18,6 +19,7 @@ export const files_table = createTable("files_table", {
   return [index("parent_index").on(t.parent)];
 });
 
+export type DB_FileType = typeof files_table.$inferSelect;
   
 
 export const folders_table = createTable("folders_table", { // Fix table name (was "files_table")
@@ -30,13 +32,4 @@ export const folders_table = createTable("folders_table", { // Fix table name (w
   return [index("parent_index").on(t.parent)];
 });
 
-
-// export const users = singlestoreTable("users_table", {
-
-//   id: bigint("id", { mode: "bigint" }).primaryKey().autoincrement(),
-
-//   name: text("name"),
-
-//   age: int("age"),
-
-// });
+export type DB_FolderType = typeof folders_table.$inferSelect;
